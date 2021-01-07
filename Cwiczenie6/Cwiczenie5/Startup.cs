@@ -39,35 +39,43 @@ namespace Cwiczenie5
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use(async (context, next) =>
+
+            app.UseWhen(contex => contex.Request.Path.ToString().Contains("secret"), app =>
             {
-                if (!context.Request.Headers.ContainsKey("Index"))
+                app.Use(async (context, next) =>
                 {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    await context.Response.WriteAsync("Wymagane podanie numeru indexu");
-                    return;
+                    if (!context.Request.Headers.ContainsKey("Index"))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        await context.Response.WriteAsync("Wymagane podanie numeru indexu");
+                        return;
 
-                }
+                    }
 
-                string index = context.Response.Headers["Index"].ToString();
+                    string index = context.Response.Headers["Index"].ToString();
 
-                var student = service.GetStudent(index);
-                if(student  != null)
-                {
-                    await context.Response.WriteAsync("Student found " + student.FirstName );
-                    return;
+                    var student = service.GetStudent(index);
+                    if (student != null)
+                    {
+                        await context.Response.WriteAsync("Student found " + student.FirstName);
+                        return;
 
-                }
-                if (student == null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Student not found");
-                    return;
+                    }
+                    if (student == null)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status404NotFound;
+                        await context.Response.WriteAsync("Student not found");
+                        return;
 
 
-                }
-                await next();
+                    }
+                    await next();
+                });
+
             });
+
+
+            
 
 
             app.UseRouting();
