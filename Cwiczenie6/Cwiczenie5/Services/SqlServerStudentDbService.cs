@@ -16,7 +16,7 @@ namespace Cwiczenie5.Services
         private const string ConString = "Data Source=db-mssql;Initial Catalog=2019SBD;Integrated Security=True";
 
 
-        Student IStudentsDbService.GetStudent(string index)
+        public Student GetStudent(string index)
         {
 
             var student = new Student();
@@ -51,9 +51,38 @@ namespace Cwiczenie5.Services
             };
         }
 
-        IEnumerable<Student> IStudentsDbService.GetStudents()
+        public IEnumerable<Student> GetStudents()
         {
-            throw new NotImplementedException();
+            var students = new List<Student>();
+
+
+
+            using (SqlConnection con = new SqlConnection(ConString))
+            using (SqlCommand com = new SqlCommand())
+            {
+                com.Connection = con;
+
+                com.CommandText = " SELECT IndexNumber ,FirstName, LastName, BirthDate  from Student";
+                
+
+                con.Open();
+                SqlDataReader dr = com.ExecuteReader();
+
+                while (dr.Read())
+                {
+                var student = new Student();
+                student.IndexNumber = dr["IndexNumber"].ToString();
+                student.FirstName = dr["FirstName"].ToString();
+                student.LastName = dr["LastName"].ToString();
+                student.BirthDate = dr["BirthDate"].ToString();
+
+                students.Add(student);
+
+                }
+
+                return students;
+            };
+
         }
 
 

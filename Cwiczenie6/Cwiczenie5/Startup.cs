@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cwiczenie5.Middleware;
 using Cwiczenie5.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +32,7 @@ namespace Cwiczenie5
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStudentsDbService service)
         {
             if (env.IsDevelopment())
@@ -39,9 +40,8 @@ namespace Cwiczenie5
                 app.UseDeveloperExceptionPage();
             }
 
+          
 
-            app.UseWhen(contex => contex.Request.Path.ToString().Contains("secret"), app =>
-            {
                 app.Use(async (context, next) =>
                 {
                     if (!context.Request.Headers.ContainsKey("Index"))
@@ -52,15 +52,9 @@ namespace Cwiczenie5
 
                     }
 
-                    string index = context.Response.Headers["Index"].ToString();
+                    string index = context.Request.Headers["Index"].ToString();
 
                     var student = service.GetStudent(index);
-                    if (student != null)
-                    {
-                        await context.Response.WriteAsync("Student found " + student.FirstName);
-                        return;
-
-                    }
                     if (student == null)
                     {
                         context.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -69,10 +63,13 @@ namespace Cwiczenie5
 
 
                     }
+
+                 //   await context.Response.WriteAsync("Student found " + student.FirstName);
+          
                     await next();
                 });
 
-            });
+       
 
 
             
