@@ -1,0 +1,121 @@
+ Logowanie 1
+/api/students
+GET
+
+
+
+
+ Logowanie 2
+/favicon.ico
+GET
+
+
+
+
+ Logowanie 3
+/api/students
+GET
+?LastName=Kowalski
+{
+
+"Login":"kowal"
+     
+ 
+    
+}
+
+
+ Logowanie 4
+/api/students
+GET
+?LastName=Kowalski
+{
+
+"Login":"kowal"
+     
+ 
+    
+}
+
+
+ Logowanie 1
+/api/students
+GET
+
+
+
+
+ Logowanie 2
+/favicon.ico
+GET
+
+
+
+
+ Logowanie 3
+/api/students
+GET
+?LastName=Kowalski
+{
+
+"Login":"kowal"
+     
+ 
+    
+}
+
+
+ Logowanie w sesji: 1
+/api/students
+GET
+
+
+
+
+ Logowanie w sesji: 2
+/favicon.ico
+GET
+
+
+
+
+ Logowanie w sesji: 3
+/api/students
+GET
+?LastName=Kowalski
+{
+
+"Login":"kowal"
+     
+ 
+    
+}
+
+
+ Logowanie w sesji: 4
+/api/students
+GET
+?LastName=Kowalski
+{
+
+"Login":"kowal"
+     
+ 
+    
+}
+
+
+ Logowanie w sesji: 1
+/api/students
+GET
+
+
+
+
+ Logowanie w sesji: 2
+/favicon.ico
+GET
+
+
+
+

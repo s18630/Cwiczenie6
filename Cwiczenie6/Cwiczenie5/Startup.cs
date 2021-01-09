@@ -40,6 +40,7 @@ namespace Cwiczenie5
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<LoggingMiddleware>();
           
 
                 app.Use(async (context, next) =>
