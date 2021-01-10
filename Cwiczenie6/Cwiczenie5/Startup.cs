@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Cwiczenie5
 {
@@ -30,6 +31,13 @@ namespace Cwiczenie5
             services.AddScoped<IStudentsDbService, SqlServerStudentDbService>();
          //   services.AddTransient<IStudentsDbService, SqlServerStudentDbService>();
             services.AddControllers();
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "Students App API", Version = "v1" });
+
+            });
+            
+
         }
 
        
@@ -39,6 +47,12 @@ namespace Cwiczenie5
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Students App API");
+
+            });
 
             app.UseMiddleware<LoggingMiddleware>();
           
